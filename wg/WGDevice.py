@@ -1,5 +1,6 @@
 import os
 import re
+from ctypes import CDLL, c_ushort, create_string_buffer
 
 from wg import WGConfig, WGPeer
 from wg.CInterface import c_library
@@ -26,6 +27,7 @@ class WGDevice:
     def add_peer(self, peer:WGPeer):
         self.peers.append(peer)
         c_library.add_client_peer(self.name.encode(), peer.client_key, peer.client_ip.encode())
+        
     @staticmethod
     def delete_device(name):
         c_library.delete_device(name.encode())
@@ -35,6 +37,6 @@ class WGDevice:
         pass
 
     def create_interface(self):
-        c_library.add_server_device(self.config.name, self.config.port, self.config.private_key)
+        c_library.add_server_device(self.name.encode(),  c_ushort(self.config.listen_port), self.config.private_key.as_bytes())
         os.system(f"ip a add dev {self.name} {self.config.local_ip}")
         self.interface_created = True

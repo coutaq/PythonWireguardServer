@@ -4,8 +4,6 @@ from wg import WGKey
 class WGConfig:
 
     def __init__(self, private_key, local_ip, listen_port):
-        if not isinstance(private_key, WGKey):
-            raise ValueError("Key should be an instance of python_wireguard.Key")
         self.postup = None
         self.postdown = None
         self.peers = []

@@ -4,11 +4,14 @@ from wg.X25519 import X25519PrivateKey
 
 
 class WGKey:
-    def __init__(self, key_str):
-        self.key_str = key_str
+    def __init__(self, key_bytes):
+        self.key_bytes = key_bytes
 
     def get(self):
-        return self.key_str
+        return self.key_bytes.decode("utf-8")
+    
+    def as_bytes(self):
+        return self.key_bytes
 
     @staticmethod
     def generate_key_pair():
@@ -16,4 +19,4 @@ class WGKey:
         public = private.public_key()
         private_b64 = base64.b64encode(private.private_bytes())
         public_b64 = base64.b64encode(public)
-        return WGKey(private_b64.decode("utf-8")), WGKey(public_b64.decode("utf-8"))
+        return WGKey(private_b64), WGKey(public_b64)
