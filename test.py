@@ -1,6 +1,7 @@
-from wg import WGConfig, WGPeer, WGKey, WGDevice
+from wireguard_tools import *
+from python_wireguard import *
 
-private, public_key = WGKey.generate_key_pair()
-print(private, public_key)
-# private, public_key = Key().key_pair()
-# print(private, public_key)
+
+device = WireguardDevice.get("wg0")
+wgconfig = device.get_config()
+print(wgconfig.asdict())

@@ -141,6 +141,7 @@ void add_client_peer(char *device_name, unsigned char *public_key, char *ip_addr
     new_peer.first_allowedip = &allowed_ip;
     new_peer.last_allowedip = &allowed_ip;
     memcpy(new_peer.public_key, public_key, sizeof(new_peer.public_key));
+    printf("C: Public key: %s\n", public_key);
     wg_device *device;
     if(wg_get_device(&device, device_name) < 0) {
         perror("Unable to get device");
