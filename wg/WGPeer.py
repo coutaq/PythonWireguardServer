@@ -1,3 +1,6 @@
+from wg import WGKey
+
+
 class WGPeer:
     def __init__(self, client_ip, client_key):
         self.client_ip = client_ip

@@ -7,7 +7,7 @@ class WGKey:
     def __init__(self, key_bytes):
         self.key_bytes = key_bytes
 
-    def get(self):
+    def as_str(self):
         return self.key_bytes.decode("utf-8")
     
     def as_bytes(self):

@@ -26,7 +26,8 @@ class WGDevice:
 
     def add_peer(self, peer:WGPeer):
         self.peers.append(peer)
-        c_library.add_client_peer(self.name.encode(), peer.client_key, peer.client_ip.encode())
+        print(peer.client_key.as_bytes())
+        c_library.add_client_peer(self.name.encode(), peer.client_key.as_bytes(), peer.client_ip.encode())
         
     @staticmethod
     def delete_device(name):
@@ -39,4 +40,8 @@ class WGDevice:
     def create_interface(self):
         c_library.add_server_device(self.name.encode(),  c_ushort(self.config.listen_port), self.config.private_key.as_bytes())
         os.system(f"ip a add dev {self.name} {self.config.local_ip}")
+        os.system(self.config.postup)
         self.interface_created = True
+
+    def __del__(self):
+        os.system(self.config.postdown)

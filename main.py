@@ -20,13 +20,13 @@ def boot():
     serv = WGDevice("wg0", config)
     serv.enable()
     # wgconfig.addresses.insert(0, "10.200.200.1/24")
-    session.post("/register", json={"public_key": public_key.__str__()})
+    session.post("/register", json={"public_key": public_key.as_str()})
     return private, serv
+
 def add(server, public_c, i):
     print(public_c)
-    client_key = WGKey(public_c)
+    client_key = WGKey( bytes(public_c,'utf-8'))
     client_ip = f"10.200.200.{i}/32"
-
     _, preshared = WGKey.generate_key_pair()
     client = WGPeer(client_ip, client_key)
     server.add_peer(client)
@@ -41,7 +41,7 @@ def add(server, public_c, i):
     # wgconfig.peers[WireguardKey(public_c)].allowed_ips = [client_ip]
     # device.set_config(wgconfig)
     # print(wgconfig)
-    return preshared
+    return preshared.as_str()
 
 
 private_key, server = boot()
